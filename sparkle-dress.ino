@@ -11,6 +11,16 @@
 // uncomment this line to get debug output on the serial port
 //#define DEBUG
 
+/*
+ * Here we're going to set the number of NeoPixels attached to the dress
+ */
+#define NUM_PIXELS  20
+
+/*
+ * This value sets which pin we're going to send the pixel data out
+ */
+#define PIXEL_PIN   6
+
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -18,7 +28,7 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream
 //   NEO_KHZ400  400 KHz bitstream (e.g. FLORA pixels)
 //   NEO_KHZ800  800 KHz bitstream (e.g. High Density LED strip)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(10, 6, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_PIXELS, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 // define BLE radio interface; second parameter sets the mode pin, but we're not too worried about that here, hence the -1
 Adafruit_BluefruitLE_UART ble(Serial1, -1);
