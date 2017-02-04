@@ -21,6 +21,11 @@
  */
 #define PIXEL_PIN   6
 
+/*
+ * This value sets the pin we're going to blink to show when a new command has been received
+ */
+#define LED_PIN     7
+
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -43,6 +48,10 @@ extern void printHex(const uint8_t * data, const uint32_t numBytes);
 
 void setup() 
 {
+  // set up the LED for indicating failure/new commands
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
+  
 #ifdef DEBUG
   while (!Serial);  // required for Flora & Micro
   Serial.begin(9600);
@@ -55,7 +64,12 @@ void setup()
     Serial.println("Oops ... unable to initialize the LSM303. Check your wiring!");
 #endif
 
-    while (1);
+    while (1) {
+      digitalWrite(LED_PIN, HIGH);
+      delay(750);
+      digitalWrite(LED_PIN, LOW);
+      delay(250);
+    }
   }
 
   // initialise the Pixel strip
@@ -69,7 +83,12 @@ void setup()
     Serial.println("Oops ... unable to initialise BLE module!");
 #endif
 
-    while (1);
+    while (1) {
+      digitalWrite(LED_PIN, HIGH);
+      delay(250);
+      digitalWrite(LED_PIN, LOW);
+      delay(750);
+    }
   }
 
   // disable echo
@@ -117,6 +136,7 @@ void loop()
   
     // did we get something?
     if (len != 0) {
+      digitalWrite(LED_PIN, HIGH);
   #ifdef DEBUG    
       Serial.println("Message revceived");
   #endif
@@ -146,6 +166,7 @@ void loop()
         Serial.println(blue, HEX);
   #endif
       }
+      digitalWrite(LED_PIN, LOW);
     }
   }
 
